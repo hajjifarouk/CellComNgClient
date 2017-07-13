@@ -1,0 +1,42 @@
+<ol class="breadcrumb mb-0">
+  <li class="breadcrumb-item">Admin</li>
+  <li class="breadcrumb-item"><a [routerLink]="['/']" href="#">Dahboard</a>
+  </li>
+  <li class="breadcrumb-item active">Plannification</li>
+</ol>
+<div class="container-fluid">
+  <div class="animated fadeIn">
+    <div class="row">
+      <angular2-fullcalendar class="col-lg-8" #myCalendar id="myCalendar" [(options)]="calendarOptions"></angular2-fullcalendar>
+      <div class="col-lg-4">
+        <div class="card">
+          <div class="card-header">
+            <i class="icon-note"></i> Masked Input Plugin for jQuery
+          </div>
+          <div class="card-block">
+            <label for="vat">User</label>
+            <select id="select2-1" class="form-control select2-single " [(ngModel)]="selectedUser" (change)="onUserChange($event)">
+              <option *ngFor='let user of users' [ngValue]="user">
+                {{user.last_name | uppercase}} {{user.first_name}} {{user.email}}
+              </option>
+            </select>
+            <label for="vat">Date</label>
+            <input [(ngModel)]="date" name="name" type="text" class="form-control" id="date2" disabled>
+            <label for="vat">Shops</label>
+            <select multiple id="Shops" class="form-control select2-single" [(ngModel)]="selectedShops">
+              <option *ngFor='let shop of shops' [ngValue]="shop">
+                  <strong>{{shop.code}}</strong> {{shop.last_name | uppercase}} {{shop.first_name}}
+                  [ {{shop.address}},{{shop.city}} ({{ shop.province }}) ] 
+              </option>
+            </select>
+            <!--<div [hidden]="!selectedProgram.shops" >
+              <span *ngFor="let event of selectedProgram.shops">{{event.last_name | uppercase}} {{event.first_name}}
+            [ {{event.address}},{{event.city}} ({{ event.province }}) ]</span>
+            </div>-->
+            <button type="button" [disabled]="!(selectedUser&&date)" (click)=add() data-dismiss="modal" class="btn btn-primary pull-right">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

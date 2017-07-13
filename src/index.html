@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>AngularClient</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- Icons -->
+  <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+  <link href="assets/css/simple-line-icons.css" rel="stylesheet">
+
+  <!-- Main styles for this application -->
+  <link href="assets/css/style.css" rel="stylesheet">
+</head>
+
+<body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
+
+  <app-root>
+    <div class="sk-cube-grid" style="justify-content: center;align-items: center;">
+      <div class="sk-cube sk-cube1"></div>
+      <div class="sk-cube sk-cube2"></div>
+      <div class="sk-cube sk-cube3"></div>
+      <div class="sk-cube sk-cube4"></div>
+      <div class="sk-cube sk-cube5"></div>
+      <div class="sk-cube sk-cube6"></div>
+      <div class="sk-cube sk-cube7"></div>
+      <div class="sk-cube sk-cube8"></div>
+      <div class="sk-cube sk-cube9"></div>
+  </app-root>
+
+  <!-- Sails socket client dependencie -->
+  <script type="text/javascript" src="assets/sails.io.js"></script>
+  <script>
+    io.sails.autoConnect = false;
+    io.sails.environment = "production";
+  </script>
+  <!-- Bootstrap and necessary plugins -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/tether.min.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+  <script src="assets/js/pace.min.js"></script>
+
+  <!-- Plugins and scripts required by all views -->
+  <script src="assets/js/Chart.min.js"></script>
+
+  <!-- GenesisUI main scripts -->
+  <script src="assets/app.js"></script>
+
+  <!-- Plugins and scripts optionally -->
+
+  <!--remplaced by angular2-datatable
+     <script src="assets/js/libs/jquery.dataTables.min.js"></script>
+      <script src="assets/js/libs/dataTables.bootstrap4.min.js"></script>-->
+  <script src="assets/js/libs/toastr.min.js"></script>
+</body>
+
+</html>

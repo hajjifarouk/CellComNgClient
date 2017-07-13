@@ -1,0 +1,285 @@
+<ol class="breadcrumb mb-0">
+  <li class="breadcrumb-item">Admin</li>
+  <li class="breadcrumb-item"><a [routerLink]="['/']" href="#">Dahboard</a>
+  </li>
+  <li class="breadcrumb-item active">Shops</li>
+</ol>
+<div class="container-fluid">
+  <div class="animated fadeIn">
+    <div class="card-block">
+      <table class="table table-striped table-bordered datatable" [mfData]="shops | shopDataFilter : filterQuery" #mf="mfDataTable"
+        [mfRowsOnPage]="rowsOnPage">
+        <thead>
+          <tr>
+            <th colspan="6">
+              <input class="form-control" [(ngModel)]="filterQuery" placeholder="Search By Code, First Name, Last Name, Address..." />
+            </th>
+            <th colspan="1">
+              <a class="btn btn-success" style="float: lerft;" href="#" data-toggle="modal" data-target="#importModal">
+                    <i class="fa fa-file-excel-o "></i>
+                  </a>
+              <a class="btn btn-success" style="float: right;" href="#" data-toggle="modal" data-target="#createModal">
+                    <i class="fa fa-plus "></i>
+                  </a>
+            </th>
+          </tr>
+          <tr>
+            <th>Code</th>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>Province</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of mf.data">
+            <td>{{ item.code }}</td>
+            <td>{{ item.first_name }}</td>
+            <td>{{ item.last_name }}</td>
+            <td>{{ item.address }}</td>
+            <td>{{ item.city }}</td>
+            <td>{{ item.province }}</td>
+            <td>
+              <a class="btn btn-warning" (click)="selectedShop=item" data-toggle="modal" data-target="#updateModal" href="#">
+                    <i class="fa fa-pencil"></i>
+                  </a>
+              <a class="btn btn-danger" (click)="selectedShop=item" data-toggle="modal" data-target="#deleteModal" href="#">
+                    <i class="fa fa-trash"></i>
+                  </a>
+              <a class="btn btn-info" (click)="selectedShop=item" data-toggle="modal" data-target="#shopMap" href="#">
+                    <i class="fa fa-map-marker"></i>
+                  </a>
+            </td>
+          </tr>
+        </tbody>
+
+        <tfoot>
+          <tr>
+            <td colspan="9">
+              <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]">
+              </mfBootstrapPaginator>
+              Max rows on one page*
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <!-- Modals -->
+  <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">New Shop</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="card">
+            <div class="card-block">
+
+              <div class="form-group">
+                <label for="street">Code</label>
+                <input [(ngModel)]="newShop.code" name="code" type="number" class="form-control" id="pass" placeholder="Enter your province here">
+              </div>
+
+              <div class="form-group">
+                <label for="company">FirstName</label>
+                <input [(ngModel)]="newShop.first_name" name="first_name" type="text" class="form-control" id="name" placeholder="Enter your first name">
+              </div>
+
+              <div class="form-group">
+                <label for="vat">LastName</label>
+                <input [(ngModel)]="newShop.last_name" name="last_name" type="text" class="form-control" id="login" placeholder="Enter last name">
+              </div>
+
+              <div class="form-group">
+                <label for="street">Address</label>
+                <input [(ngModel)]="newShop.address" name="address" type="email" class="form-control" id="pass" placeholder="Enter your address here">
+              </div>
+
+              <div class="form-group">
+                <label for="street">City</label>
+                <input [(ngModel)]="newShop.city" name="city" type="email" class="form-control" id="pass" placeholder="Enter your city here">
+              </div>
+
+              <div class="form-group">
+                <label for="street">Province</label>
+                <input [(ngModel)]="newShop.province" name="province" type="email" class="form-control" id="pass" placeholder="Enter your province here">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" (click)="saveShop()" data-dismiss="modal" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Edit Shop</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+        </div>
+        <div class="modal-body">
+          <div class="card">
+            <div class="card-block">
+
+              <div class="form-group">
+                <label for="street">Code</label>
+                <input [(ngModel)]="selectedShop.code" name="email" type="email" class="form-control" id="pass" placeholder="Enter your province here">
+              </div>
+
+              <div class="form-group">
+                <label for="company">FirstName</label>
+                <input [(ngModel)]="selectedShop.first_name" name="name" type="text" class="form-control" id="name" placeholder="Enter your first name">
+              </div>
+
+              <div class="form-group">
+                <label for="vat">LastName</label>
+                <input [(ngModel)]="selectedShop.last_name" name="login" type="text" class="form-control" id="login" placeholder="Enter last name">
+              </div>
+
+              <div class="form-group">
+                <label for="street">Address</label>
+                <input [(ngModel)]="selectedShop.address" name="email" type="email" class="form-control" id="pass" placeholder="Enter your address here">
+              </div>
+
+              <div class="form-group">
+                <label for="street">City</label>
+                <input [(ngModel)]="selectedShop.city" name="email" type="email" class="form-control" id="pass" placeholder="Enter your city here">
+              </div>
+
+              <div class="form-group">
+                <label for="street">Province</label>
+                <input [(ngModel)]="selectedShop.province" name="email" type="email" class="form-control" id="pass" placeholder="Enter your province here">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" (click)="editShop()" data-dismiss="modal" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Destroy Shop</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+        </div>
+        <div class="modal-body">
+          <div class="card">
+            <div class="card-block">
+              <h6>Are you shoure of deleting user <strong>{{ selectedShop.code }} ??</strong></h6>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" (click)="deleteShop()" data-dismiss="modal" class="btn btn-danger">Yes, delete</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+
+  <div class="modal fade" id="shopMap" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Shop Location</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="card">
+            <div class="card-block">
+              <agm-map [latitude]="marker.latitude" [longitude]="marker.longitude" (mapClick)="mapClicked($event)">
+                <agm-marker label="S" [latitude]="marker.latitude" [longitude]="marker.longitude" [markerDraggable]="marker.draggable" (dragEnd)="dragged($event)"></agm-marker>
+              </agm-map>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" (click)="editShopPosition()" data-dismiss="modal" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Import Shop from Excel</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <input lang="EN" type="file" name="photo" ng2FileSelect [uploader]="uploader" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            />
+            <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length" style="float: right;">Upload </button>
+          </div>
+          <div *ngIf="importResponse.length">
+            <table class="table table-striped table-bordered datatable" [mfData]="importResponse" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>FirstName</th>
+                  <th>LastName</th>
+                  <th>Address</th>
+                  <th>City</th>
+                  <th>Province</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of mf.data">
+                  <td>{{ item.code }}</td>
+                  <td>{{ item.first_name }}</td>
+                  <td>{{ item.last_name }}</td>
+                  <td>{{ item.address }}</td>
+                  <td>{{ item.city }}</td>
+                  <td>{{ item.province }}</td>
+                </tr>
+              </tbody>
+
+              <tfoot>
+                <tr>
+                  <td colspan="9">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]">
+                    </mfBootstrapPaginator>
+                    Max rows on one page*
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <!-- button to trigger the file upload when submitted -->
+          <button type="button" class="btn btn-success btn-s" (click)="import()" [disabled]="!importResponse.length">Import </button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>

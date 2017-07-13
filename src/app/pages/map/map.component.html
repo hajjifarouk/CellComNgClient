@@ -1,0 +1,43 @@
+<div class="col-md-12">
+  <div class="card">
+    <div class="card-header">
+      Filter
+    </div>
+    <div class="card-block">
+      <label> Users</label>
+      <label class="switch switch-icon switch-success">
+          <input type="checkbox" class="switch-input" [(ngModel)]="disp_users">
+          <span class="switch-label" data-on="" data-off=""></span>
+          <span class="switch-handle"></span>
+      </label>
+      <label> Shops</label>
+      <label class="switch switch-icon switch-warning">
+          <input type="checkbox" class="switch-input" [(ngModel)]="disp_shops">
+          <span class="switch-label" data-on="" data-off=""></span>
+          <span class="switch-handle"></span>
+      </label>
+      <form id="UserMarkerFilter" class="form-inline float-right ">
+        <input [(ngModel)]="token" type="text" id="input1-group2" name="input1-group2" class="form-control" placeholder="Search">
+      </form>
+    </div>
+  </div>
+</div>
+<agm-map [latitude]="lat" [longitude]="lng">
+ <!-- <agm-marker [visible]="disp_users" *ngFor="let user of users | userMarkerFilter:token " label="A" [title]="user.first_name" iconUrl=""
+    [latitude]="user.place.latitude" [longitude]="user.place.longitude">
+    <agm-info-window>
+      <img class="img-avatar" src="../../assets/img/favicon.png"  />
+      <div class="h4 mb-0">{{ user.first_name }} {{ user.last_name }}</div>
+      <small class="text-muted text-uppercase font-weight-bold">{{ user.email }}</small>
+    </agm-info-window>
+  </agm-marker>-->
+
+  <agm-marker [visible]="disp_shops"  *ngFor="let shop of shops | shopMarkerFilter:token "  label="S" [title]="shop.first_name" iconUrl=""
+    [latitude]="shop.place.latitude" [longitude]="shop.place.longitude">
+    <agm-info-window>
+      <img class="img-avatar" src="../../assets/img/favicon.png"  /><!--src="{{ user.img }}"-->
+      <div class="h4 mb-0">{{ shop.code }}</div>
+      <small class="text-muted text-uppercase font-weight-bold">{{ shop.first_name }} {{ shop.last_name }}</small>
+    </agm-info-window>
+  </agm-marker>
+</agm-map>

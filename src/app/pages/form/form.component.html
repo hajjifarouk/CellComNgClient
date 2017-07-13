@@ -1,0 +1,188 @@
+<ol class="breadcrumb mb-0">
+  <li class="breadcrumb-item">Admin</li>
+  <li class="breadcrumb-item"><a [routerLink]="['/']" href="#">Dahboard</a>
+  </li>
+  <li class="breadcrumb-item active">Forms</li>
+</ol>
+<div class="container-fluid">
+  <div class="animated fadeIn">
+    <div><a class="btn btn-success float-right" data-toggle="modal" data-target="#createModal" href="#">
+                    <i class="fa fa-plus "></i>
+                  </a></div>
+    <div class="row">
+      <div class="col-sm-6 col-md-4" *ngFor="let item of forms">
+        <div class="card">
+          <div class="card-header">
+            Ref: {{item.ref}}
+            <i [ngClass]="(item.isActive)?'fa fa-circle text-success':'fa fa-circle text-danger'"></i>
+          </div>
+          <div class="card-block">
+            <div class="text-center">
+              <span><strong>{{item.title}}</strong></span>
+            </div><br><br>
+            <div class="text-center">
+              <a class="btn btn-info" (click)="populate(item)" data-toggle="modal" data-target="#deleteModal" href="#">
+                    <i class="fa fa-search"></i>
+                  </a>
+              <a class="btn btn-warning" (click)="populate(item)" data-toggle="modal" data-target="#updateModal" href="#">
+                    <i class="fa fa-edit "></i>
+                  </a>
+              <a class="btn btn-danger" (click)="selectedForm=item" data-toggle="modal" data-target="#deleteModal" href="#">
+                    <i class="fa fa-trash-o "></i>
+                  </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Create form</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <h4>Add Form</h4>
+          <form [formGroup]="myForm" novalidate (ngSubmit)="save(myForm)">
+            <!--ref-->
+            <div class="form-group">
+              <label>Ref</label>
+              <input type="text" class="form-control" formControlName="ref">
+              <small *ngIf="!myForm.controls.ref.valid" class="text-danger">Ref is required.</small>
+            </div>
+            <!--ref end-->
+            <!--title-->
+            <div class="form-group">
+              <label>Title</label>
+              <input type="text" class="form-control" formControlName="title">
+              <small *ngIf="!myForm.controls.title.valid" class="text-danger">Title is required.</small>
+            </div>
+            <!--title end-->
+            <!--isActive-->
+            <div class="form-group">
+              <label>Is Active</label>
+              <label class="switch switch-sm switch-text switch-info  mb-0 pull-right">
+                                        <input type="checkbox" class="switch-input" formControlName="isActive">
+                                        <span class="switch-label" data-on="On" data-off="Off"></span>
+                                        <span class="switch-handle"></span>
+                                    </label>
+            </div>
+            <!--isActive end-->
+            <!--questions-->
+            <div formArrayName="questions">
+              <div *ngFor="let question of myForm.controls.questions.controls; let i=index" class="panel panel-default">
+                <div class="panel-heading">
+                  <span>Question {{i + 1}}</span>
+                  <button type="button" class="close" aria-label="Close" *ngIf="myForm.controls.questions.controls.length > 1" (click)="removeQuestion(i)"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="panel-body" [formGroupName]="i">
+                  <app-question [group]="myForm.controls.questions.controls[i]"></app-question>
+                </div>
+              </div>
+            </div>
+            <div class="margin-20">
+              <a (click)="addQuestion()" style="cursor: default">Add another question +</a>
+            </div>
+            <div class="clearfix"></div>
+            <div class="margin-20 pull-right">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" onclick="$('#createModal').modal('hide')" class="btn btn-primary" [disabled]="!myForm.valid">Save changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Create form</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <h4>Add Form</h4>
+          <form [formGroup]="myForm" novalidate (ngSubmit)="editForm(myForm)">
+            <!--ref-->
+            <div class="form-group">
+              <label>Ref</label>
+              <input type="text" class="form-control" formControlName="ref">
+              <small *ngIf="!myForm.controls.ref.valid" class="text-danger">Ref is required.</small>
+            </div>
+            <!--ref end-->
+            <!--title-->
+            <div class="form-group">
+              <label>Title</label>
+              <input type="text" class="form-control" formControlName="title">
+              <small *ngIf="!myForm.controls.title.valid" class="text-danger">Title is required.</small>
+            </div>
+            <!--title end-->
+            <!--isActive-->
+            <div class="form-group">
+              <label>Is Active</label>
+              <label class="switch switch-sm switch-text switch-info  mb-0 pull-right">
+                                        <input type="checkbox" class="switch-input" formControlName="isActive">
+                                        <span class="switch-label" data-on="On" data-off="Off"></span>
+                                        <span class="switch-handle"></span>
+                                    </label>
+            </div>
+            <!--isActive end-->
+            <!--questions-->
+            <div formArrayName="questions">
+              <div *ngFor="let item of myForm.controls.questions.controls; let i=index" class="panel panel-default">
+                <div class="panel-heading">
+                  <span>Question {{i + 1}}</span>
+                  <button type="button" class="close" aria-label="Close" *ngIf="myForm.controls.questions.controls.length > 1" (click)="removeQuestion(i)"><span aria-hidden="true">×</span></button>
+                  <!--<span class="glyphicon glyphicon-remove pull-right" *ngIf="myForm.controls.addresses.controls.length > 1" (click)="removeAddress(i)"></span>-->
+                </div>
+                <div class="panel-body" [formGroupName]="i">
+                  <app-question [group]="myForm.controls.questions.controls[i]"></app-question>
+                </div>
+              </div>
+            </div>
+            <div class="margin-20">
+              <a (click)="addQuestion()" style="cursor: default">Add another question +</a>
+            </div>
+            <div class="clearfix"></div>
+            <div class="margin-20 pull-right">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" onclick="$('#updateModal').modal('hide')" class="btn btn-primary" [disabled]="!myForm.valid">Save changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Destroy form</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+          <div class="card-block">
+            <h6>Are you shoure of deleting form <strong>{{ selectedForm.ref }} ??</strong></h6>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" (click)="deleteForm()" data-dismiss="modal" class="btn btn-danger">Yes, delete</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>

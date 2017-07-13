@@ -1,0 +1,8 @@
+<div [formGroup]="questionForm">
+    <div class="form-group col-xs-6">
+        <input type="text" class="form-control" formControlName="body">
+        <small [hidden]="questionForm.controls.body.valid" class="text-danger">
+            questoin body is required
+        </small>
+    </div>
+</div>
